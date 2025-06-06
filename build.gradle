@@ -21,7 +21,7 @@ dependencies {
     compileOnly(libs.findBugs)
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation(libs.jacoco)
+    implementation(libs.jacocoCore)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation(platform(libs.junitBom))
     testImplementation("org.junit.jupiter:junit-jupiter")
