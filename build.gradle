@@ -3,18 +3,11 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     id("java")
     id("application")
-    id 'org.springframework.boot' version '3.5.0'
-
+    alias(libs.plugins.spring.boot)
 }
 
 group = "org.magnasoft"
 version = "1.0-SNAPSHOT"
-
-java {
-    toolchain {
-        //languageVersion = JavaLanguageVersion.of(21)
-    }
-}
 
 repositories {
     mavenCentral()
@@ -50,3 +43,12 @@ tasks {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.named("bootJar") {
+    archiveClassifier = 'boot'
+}
+
+
+//tasks.named("bootJar") {
+//    mainClass = 'org.magnasoft.jacoco.server.JacocoServerApplication'
+//}

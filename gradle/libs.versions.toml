@@ -17,3 +17,6 @@ jacoco = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
 
 [bundles]
 logging = ["slf4jApi", "logbackClassic"]
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.5.0" }
