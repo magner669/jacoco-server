@@ -1,0 +1,52 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id("java")
+    id("application")
+    id 'org.springframework.boot' version '3.5.0'
+
+}
+
+group = "org.magnasoft"
+version = "1.0-SNAPSHOT"
+
+java {
+    toolchain {
+        //languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    mockitoAgent
+}
+
+dependencies {
+    compileOnly(libs.findBugs)
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation(libs.jacoco)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation(platform(libs.junitBom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation(libs.mockitoCore)
+    testImplementation(libs.mockitoJupiter)
+    mockitoAgent(libs.mockitoCore) {
+        transitive = false
+    }
+    implementation(libs.bundles.logging)
+}
+
+tasks {
+    test {
+        jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
