@@ -47,6 +47,9 @@ jobs:
     # - name: Build with Gradle 8.9
     #   run: gradle build
 
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag jacoco-server:$(date +%s)
+
   dependency-submission:
 
     runs-on: ubuntu-latest
