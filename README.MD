@@ -1,16 +1,23 @@
+
 # JaCocCo Server
 
 Collect code coverage during integration tests, and make it available to the build agent so they can be merged with
 unit test code coverage.
 
-## What is JaCoCo?
+Table of contents:
+- [What is JaCoCo?](#what-is-jacoco)
+- [Why JaCoCo Server?](#why-jacoco-server)
+- [Requirements](#requirements)
+- [Usage](#usage)
+
+## What is JaCoCo? <a name="what-is-jacoco"></a>
 
 [JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/index.html) is a free Java code coverage library distributed under the
 Eclipse Public License. It is the de-facto standard for code coverage in Java projects.
 It provides tools to measure and report code coverage, which helps developers verify that their tests are exercising
 the code as expected.
 
-## Why JaCoCo Server?
+## Why JaCoCo Server? <a name="why-jacoco-server"></a>
 
 Consider a system composed of a set of Java microservices running in Kubernetes.
 
@@ -38,7 +45,7 @@ Typical use cases for JaCoCo Server include:
 * Lots of unit tests and no integration tests, due to their relative high cost. Leading to concern before release that
   the system might not work as expected. Will the process even start? Is each microservice compatible with the others?
 
-## Requirements
+## Requirements <a name="requirements"></a>
 
 * Java 22 for JaCoCo server, test processes can use any Java version compatible with JaCoCo.
 * The [JaCoCo agent jar file](https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent) (any version would do), 
@@ -47,9 +54,11 @@ Typical use cases for JaCoCo Server include:
   should be run as a service with a stable hostname, so that the test processes can connect to it. An ingress must set
   up to download the code coverage reports.
 
-## Usage
+## Usage <a name="usage"></a>
 
-Each test process must be started with the [JaCoCo agent](https://www.eclemma.org/jacoco/trunk/doc/agent.html) 
+### Configuring the JaCoCo agent
+
+Each process under test must be started with the [JaCoCo agent](https://www.eclemma.org/jacoco/trunk/doc/agent.html) 
 enabled and configured to emit code coverage data to the JaCoCo server. 
 This is done by adding the following JVM argument to the command line when starting the process:
 ```
