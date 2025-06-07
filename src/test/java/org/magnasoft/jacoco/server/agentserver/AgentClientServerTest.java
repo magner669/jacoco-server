@@ -44,7 +44,7 @@ class AgentClientServerTest {
         tcpClientOutput = new TcpClientOutput(exceptionConsumer::accept);
         agentWorkerLifecycleManager = new AgentWorkerLifecycleManager(sessionStateManager);
         agentServer = new AgentServer(0 , agentWorkerLifecycleManager);
-        final int port = agentServer.getPort();
+        final int port = agentServer.getActualPort();
         when(agentOptions.getPort()).thenReturn(port);
         when(agentOptions.getAddress()).thenReturn("localhost");
     }

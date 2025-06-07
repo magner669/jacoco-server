@@ -44,14 +44,17 @@ class AgentServer implements AutoCloseable {
     }
 
     @Override
-    public void close() throws InterruptedException, IOException {
+    public void close() throws InterruptedException {
         LOGGER.debug("Closing {}", serverSocket);
         // for a virtual thread, interrupting also closes the socket
         thread.interrupt();
         thread.join();
     }
 
-    int getPort() {
+    /**
+     * @return the actual bound port. This is useful for unit tests when port is passed as 0 to the constructor.
+     */
+    int getActualPort() {
         return serverSocket.getLocalPort();
     }
 
