@@ -1,7 +1,7 @@
 [![codecov](https://codecov.io/gh/magner669/jacoco-server/branch/main/graph/badge.svg)](https://codecov.io/gh/magner669/jacoco-server)
 # JaCocCo Server
 
-Increases code coverage by collecting it from integration tests.
+Increase code coverage by collecting it from integration tests.
 
 Table of contents:
 - [What is JaCoCo?](#what-is-jacoco)
