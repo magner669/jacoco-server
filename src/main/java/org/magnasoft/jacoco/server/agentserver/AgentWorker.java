@@ -16,28 +16,31 @@ import static java.lang.Thread.currentThread;
 class AgentWorker implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentWorker.class);
     private final RemoteControlReader remoteControlReader;
-    private final Object info;
+    private final AgentInfo agentInfo;
 
-    AgentWorker(final RemoteControlReader remoteControlReader, final Object agentInfo) {
+    AgentWorker(final RemoteControlReader remoteControlReader, final AgentInfo agentInfo) {
         this.remoteControlReader = remoteControlReader;
-        this.info = agentInfo;
+        this.agentInfo = agentInfo;
     }
 
     @Override
     public void run() {
-        LOGGER.debug("Connected {}", info);
+        LOGGER.debug("Connected {}", agentInfo);
         while (true) {
             try {
                 if (!remoteControlReader.read()) {
-                    LOGGER.debug("Closed: {}", info);
+                    LOGGER.debug("Agent closed connection: {}", agentInfo);
                     break;
                 }
             } catch (final IOException e) {
                 if (currentThread().isInterrupted()) {
-                    LOGGER.info("Interrupted: {}", info);
+                    // If the thread is interrupted,the exception is resulting from the interruption
+                    // and need not be handled any further.
+                    LOGGER.debug("Interrupted agent is still connected: {}", agentInfo, e);
                     break;
+                } else {
+                    throw new UncheckedIOException(e);
                 }
-                throw new UncheckedIOException(e);
             }
         }
     }

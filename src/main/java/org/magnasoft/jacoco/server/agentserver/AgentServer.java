@@ -21,6 +21,7 @@ import static java.lang.Thread.currentThread;
 @Component
 class AgentServer implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentServer.class);
+    private static final int DEFAULT_PORT = 6300;
     private final ServerSocket serverSocket;
     private final AgentWorkerLifecycleManager agentWorkerLifecycleManager;
     private final Thread thread;
@@ -28,8 +29,10 @@ class AgentServer implements AutoCloseable {
     AgentServer(
             final int port,
             final AgentWorkerLifecycleManager agentWorkerLifecycleManager) throws IOException {
-        serverSocket = new ServerSocket(port);
         this.agentWorkerLifecycleManager = agentWorkerLifecycleManager;
+        // start listening for agent connections on the specified port
+        serverSocket = new ServerSocket(port);
+        // start a virtual thread to accept connections
         thread = Thread.ofVirtual().start(this::acceptAgentConnections);
         LOGGER.info("Listening for connections on {}", this.serverSocket);
     }
@@ -37,12 +40,13 @@ class AgentServer implements AutoCloseable {
     @Autowired
     AgentServer(
             final AgentWorkerLifecycleManager agentWorkerLifecycleManager) throws IOException {
-        this(6300, agentWorkerLifecycleManager);
+        this(DEFAULT_PORT, agentWorkerLifecycleManager);
     }
 
     @Override
-    public void close() throws InterruptedException {
+    public void close() throws InterruptedException, IOException {
         LOGGER.debug("Closing {}", serverSocket);
+        // for a virtual thread, interrupting also closes the socket
         thread.interrupt();
         thread.join();
     }
@@ -53,16 +57,17 @@ class AgentServer implements AutoCloseable {
 
     private void acceptAgentConnections() {
         while (true) {
-            final Socket clientSocket;
+            final Socket agentSocket;
             try {
-                clientSocket = serverSocket.accept();
-                agentWorkerLifecycleManager.accept(clientSocket);
+                agentSocket = serverSocket.accept();
+                // delegate the client socket to the lifecycle manager
+                agentWorkerLifecycleManager.accept(agentSocket);
             } catch (final RuntimeException | IOException e) {
                 if (currentThread().isInterrupted()) {
-                    LOGGER.debug("Interrupted");
+                    LOGGER.debug("Interrupted. Socket closed: {}" , serverSocket.isClosed());
                     break;
                 } else {
-                    LOGGER.error("Exception while accepting socket", e);
+                    LOGGER.warn("Exception while accepting socket", e);
                 }
             }
 
