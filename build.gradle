@@ -47,8 +47,12 @@ tasks.test {
 tasks.named("bootJar") {
     archiveClassifier = 'boot'
 }
-
-
-//tasks.named("bootJar") {
-//    mainClass = 'org.magnasoft.jacoco.server.JacocoServerApplication'
-//}
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full" // Shows full stack traces and causes
+        showCauses true
+        showStackTraces true
+        showStandardStreams true // Shows System.out/System.err output
+    }
+}
