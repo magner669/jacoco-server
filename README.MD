@@ -59,7 +59,11 @@ Typical use cases for JaCoCo Server include:
 ### Configuring the JaCoCo agent
 
 Each process under test must be started with the [JaCoCo agent](https://www.eclemma.org/jacoco/trunk/doc/agent.html) 
-enabled and configured to emit code coverage data to the JaCoCo server. 
+enabled and configured to emit code coverage data to the JaCoCo server.
+
+It should only be configured when running integration tests. It can be conditionally be configured using
+[helm](https://helm.sh/).
+
 This is done by adding the following JVM argument to the command line when starting the process:
 ```
 java -javaagent:[yourpath/]jacocoagent.jar=output=tcpclient,address=[yourhostname],sessionid=[yoursessionid]
@@ -70,3 +74,21 @@ Where:
 * `yourhostname` is the hostname for JaCoCo server.
 * `yoursessionid` is the session id to use, must be the same for all the java processes. For example, 
    the build ID or a random UUID generated at the start of the build.
+
+An example pod running a process under test `myapp.jar`, where `jacocoagent.jar` is included in the container image,
+and the JaCoCo server running behind the hostname `jacoco-server.default.svc.cluster.local`:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-java-app
+spec:
+  containers:
+    - name: java-app
+      image: my-java-app:latest
+      command: ["java"]
+      args:
+        - "-javaagent:/app/jacocoagent.jar=output=tcpclient,address=jacoco-server.default.svc.cluster.local,sessionid=my-build-id-123"
+        - "-jar"
+        - "/app/myapp.jar"
+```
