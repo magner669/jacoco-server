@@ -1,4 +1,4 @@
-
+[![codecov](https://codecov.io/gh/magner669/jacoco-server/branch/main/graph/badge.svg)](https://codecov.io/gh/magner669/jacoco-server)
 # JaCocCo Server
 
 Collect code coverage during integration tests, and make it available to the build agent so they can be merged with
