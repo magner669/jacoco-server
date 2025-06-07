@@ -1,13 +1,15 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id("java")
-    id("application")
+    id 'java'
+    id 'application'
+    id 'jacoco'
     alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spotless)
 }
 
-group = "org.magnasoft"
-version = "1.0-SNAPSHOT"
+group = 'org.magnasoft'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -44,15 +46,26 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.named("bootJar") {
-    archiveClassifier = 'boot'
-}
 test {
     testLogging {
-        events "failed"
-        exceptionFormat "full" // Shows full stack traces and causes
+        events 'failed'
+        exceptionFormat 'full' // Shows full stack traces and causes
         showCauses true
         showStackTraces true
         showStandardStreams true // Shows System.out/System.err output
+    }
+}
+
+spotless {
+    format 'misc', {
+        target '*.gradle', '.gitattributes', '.gitignore'
+        trimTrailingWhitespace()
+        leadingTabsToSpaces()
+        endWithNewline()
+    }
+
+    java {
+        removeUnusedImports()
+        googleJavaFormat()
     }
 }
