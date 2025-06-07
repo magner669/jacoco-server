@@ -15,6 +15,6 @@ class SessionRepository {
 
     Session getOrCreate(final SessionInfo sessionInfo) {
         final var sessionId = sessionInfo.getId();
-        return sessionDataStore.computeIfAbsent(sessionId,ignored -> new Session());
+        return sessionDataStore.computeIfAbsent(sessionId,ignored -> Session.of(sessionInfo));
     }
 }

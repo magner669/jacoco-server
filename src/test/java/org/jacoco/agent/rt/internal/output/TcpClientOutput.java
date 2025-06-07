@@ -64,7 +64,7 @@ public class TcpClientOutput implements IAgentOutput {
         worker.start();
     }
 
-    public void shutdown() throws Exception {
+    public void shutdown() throws IOException, InterruptedException {
         connection.close();
         worker.join();
     }

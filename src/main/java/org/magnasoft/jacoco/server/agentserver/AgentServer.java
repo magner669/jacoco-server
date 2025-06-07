@@ -41,7 +41,7 @@ class AgentServer implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws InterruptedException {
         LOGGER.debug("Closing {}", serverSocket);
         thread.interrupt();
         thread.join();

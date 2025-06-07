@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.util.Collections.synchronizedList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,21 +28,20 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class AgentClientServerTest {
 
-    private static final String TEST_SESSION_ID = "test-session-id";
-    private static final String TEST_CLASS_NAME = "test.Class";
-    private static final long TEST_CLASS_ID = 1234;
-    private final List<Exception> exceptions = synchronizedList(new ArrayList<>());
-    private AgentServer agentServer;
     @Mock
-    private AgentOptions agentOptions;
-    private final RuntimeData runtimeData = new RuntimeData();
-    private final TcpClientOutput tcpClientOutput = new TcpClientOutput(exceptions::add);
+    private Consumer<Exception> exceptionConsumer;
     @Mock
     private SessionStateManager sessionStateManager;
+    @Mock
+    private AgentOptions agentOptions;
+    private AgentServer agentServer;
+    private final RuntimeData runtimeData = new RuntimeData();
+    private TcpClientOutput tcpClientOutput;
     private AgentWorkerLifecycleManager agentWorkerLifecycleManager;
 
     @BeforeEach
     void setUp() throws IOException {
+        tcpClientOutput = new TcpClientOutput(exceptionConsumer::accept);
         agentWorkerLifecycleManager = new AgentWorkerLifecycleManager(sessionStateManager);
         agentServer = new AgentServer(0 , agentWorkerLifecycleManager);
         final int port = agentServer.getPort();
@@ -51,22 +50,25 @@ class AgentClientServerTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() throws IOException, InterruptedException {
         tcpClientOutput.shutdown();
         agentWorkerLifecycleManager.close();
         agentServer.close();
-        assertTrue( exceptions.isEmpty(), "Exceptions occurred during test: " + exceptions);
+        verifyNoInteractions(exceptionConsumer);
     }
 
     @Test
-    void connectDisconnect() throws Exception {
+    void connectDisconnect() throws IOException {
         tcpClientOutput.startup(agentOptions,runtimeData);
     }
 
     @Nested
     class SessionTest {
-        private final List<SessionInfo> actualSessionInfos = Collections.synchronizedList(new ArrayList<>());
-        private final List<ExecutionData> actualExecutionDatas = Collections.synchronizedList(new ArrayList<>());
+        private static final String TEST_SESSION_ID = "test-session-id";
+        private static final String TEST_CLASS_NAME = "test.Class";
+        private static final long TEST_CLASS_ID = 1234;
+        private final List<SessionInfo> actualSessionInfos = synchronizedList(new ArrayList<>());
+        private final List<ExecutionData> actualExecutionDatas = synchronizedList(new ArrayList<>());
 
         @BeforeEach
         void setUp() throws IOException {
@@ -78,12 +80,12 @@ class AgentClientServerTest {
                 return null;
             }).when(sessionStateManager).accept(any());
             tcpClientOutput.startup(agentOptions,runtimeData);
+            // create some execution data, anf flip one of the probes to true
+            runtimeData.getExecutionData(TEST_CLASS_ID , TEST_CLASS_NAME, 1).getProbes()[0]=true;
         }
 
         @Test
-        void sendOneExecutionData() throws Exception {
-            final var executionData = runtimeData.getExecutionData(TEST_CLASS_ID , TEST_CLASS_NAME, 1);
-            executionData.getProbes()[0]=true;
+        void sendOneExecutionData() throws IOException {
             tcpClientOutput.writeExecutionData(false);
             verify(sessionStateManager).accept(any());
             assertEquals( 1 , actualSessionInfos.size());
@@ -94,6 +96,18 @@ class AgentClientServerTest {
             assertEquals( TEST_CLASS_NAME , actualExecutionData.getName() );
             assertEquals( TEST_CLASS_ID , actualExecutionData.getId() );
             assertArrayEquals( new boolean[]{true} , actualExecutionData.getProbes() );
+        }
+
+        @Test
+        void twoClients() throws Exception {
+            final var otherTcpClientOutput = new TcpClientOutput(exceptionConsumer::accept);
+            otherTcpClientOutput.startup(agentOptions,runtimeData);
+            tcpClientOutput.writeExecutionData(false);
+            otherTcpClientOutput.writeExecutionData(false);
+            otherTcpClientOutput.shutdown();
+            verify(sessionStateManager, times(2)).accept(any());
+            assertEquals( 2 , actualSessionInfos.size());
+            assertEquals( 2 , actualExecutionDatas.size());
         }
 
     }
