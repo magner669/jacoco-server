@@ -3,7 +3,7 @@ FROM eclipse-temurin:22-jdk
 # Create a non-root user with a specific UID (e.g., 1001)
 RUN adduser --disabled-password --gecos '' --uid 1001 jacocoserver
 
-COPY build/libs/jacoco-server-0.0.1-SNAPSHOT.jar /app/jacoco-server.jar
+COPY build/libs/jacoco-server-1.0-SNAPSHOT-boot.jar /app/jacoco-server.jar
 
 RUN chown -R jacocoserver:jacocoserver /app
 
