@@ -104,6 +104,8 @@ class AgentClientServerTest {
       try {
         tcpClientOutput.writeExecutionData(false);
         otherTcpClientOutput.writeExecutionData(false);
+        // for some reason this test is flaky,so sleep a little
+        Thread.sleep(500);
         verify(sessionStateManager, times(2)).accept(any());
         assertEquals(2, actualSessionInfos.size());
         assertEquals(2, actualExecutionDatas.size());
