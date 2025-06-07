@@ -52,8 +52,8 @@ class AgentClientServerTest {
     @AfterEach
     void tearDown() throws IOException, InterruptedException {
         tcpClientOutput.shutdown();
-        agentWorkerLifecycleManager.close();
         agentServer.close();
+        agentWorkerLifecycleManager.close();
         verifyNoInteractions(exceptionConsumer);
     }
 
@@ -80,7 +80,7 @@ class AgentClientServerTest {
                 return null;
             }).when(sessionStateManager).accept(any());
             tcpClientOutput.startup(agentOptions,runtimeData);
-            // create some execution data, anf flip one of the probes to true
+            // create some execution data, and flip one of the probes to true
             runtimeData.getExecutionData(TEST_CLASS_ID , TEST_CLASS_NAME, 1).getProbes()[0]=true;
         }
 
@@ -88,8 +88,8 @@ class AgentClientServerTest {
         void sendOneExecutionData() throws IOException {
             tcpClientOutput.writeExecutionData(false);
             verify(sessionStateManager).accept(any());
-            assertEquals( 1 , actualSessionInfos.size());
             final var actualSession = actualSessionInfos.getFirst();
+            assertEquals( 1 , actualSessionInfos.size());
             assertEquals( TEST_SESSION_ID , actualSession.getId() );
             assertEquals( 1 , actualExecutionDatas.size());
             final var actualExecutionData = actualExecutionDatas.getFirst();
@@ -102,12 +102,15 @@ class AgentClientServerTest {
         void twoClients() throws Exception {
             final var otherTcpClientOutput = new TcpClientOutput(exceptionConsumer::accept);
             otherTcpClientOutput.startup(agentOptions,runtimeData);
-            tcpClientOutput.writeExecutionData(false);
-            otherTcpClientOutput.writeExecutionData(false);
-            otherTcpClientOutput.shutdown();
-            verify(sessionStateManager, times(2)).accept(any());
-            assertEquals( 2 , actualSessionInfos.size());
-            assertEquals( 2 , actualExecutionDatas.size());
+            try {
+                tcpClientOutput.writeExecutionData(false);
+                otherTcpClientOutput.writeExecutionData(false);
+                verify(sessionStateManager, times(2)).accept(any());
+                assertEquals( 2 , actualSessionInfos.size());
+                assertEquals( 2 , actualExecutionDatas.size());
+            } finally {
+                otherTcpClientOutput.shutdown();
+            }
         }
 
     }
