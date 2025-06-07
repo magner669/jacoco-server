@@ -81,7 +81,9 @@ class AgentClientServerTest {
             }).when(sessionStateManager).accept(any());
             tcpClientOutput.startup(agentOptions,runtimeData);
             // create some execution data, and flip one of the probes to true
-            runtimeData.getExecutionData(TEST_CLASS_ID , TEST_CLASS_NAME, 1).getProbes()[0]=true;
+            runtimeData
+                    .getExecutionData(TEST_CLASS_ID , TEST_CLASS_NAME, 1)
+                    .getProbes()[0]=true;
         }
 
         @Test
