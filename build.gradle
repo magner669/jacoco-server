@@ -46,6 +46,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.named("bootJar") {
+    archiveClassifier = 'boot'
+}
+
 test {
     testLogging {
         events 'failed'
