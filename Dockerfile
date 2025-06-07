@@ -1,4 +1,4 @@
-FROM ghcr.io/graalvm/graalvm-community:22.0.0.2
+FROM eclipse-temurin:22-jdk
 
 # Create a non-root user with a specific UID (e.g., 1001)
 RUN adduser --disabled-password --gecos '' --uid 1001 jacocoserver
