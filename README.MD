@@ -11,10 +11,8 @@ Table of contents:
 
 ## What is JaCoCo? <a name="what-is-jacoco"></a>
 
-[JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/index.html) is a free Java code coverage library distributed under the
-Eclipse Public License. It is the de-facto standard for code coverage in Java projects.
-It provides tools to measure and report code coverage, which helps developers verify that their tests are exercising
-the code as expected.
+[JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/index.html) is a free Java code coverage library. It is the de-facto standard for code coverage in Java.
+It provides tools to measure and report code coverage, which helps developers verify that their tests are exercising the code as expected.
 
 ## Why JaCoCo Server? <a name="why-jacoco-server"></a>
 
