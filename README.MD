@@ -29,7 +29,7 @@ Typical use cases for JaCoCo server include:
 * Duplication of coverage by unit tests, and integration tests, leading to
   duplication of effort to develop and maintain them, and higher cost of
   ownership.
-* A repository required to maintain high code coverage, thus has many unit
+* A requirement to maintain high code coverage, which results in lots of unit
   tests tightly coupled to the implementation, making refactoring the 
   implementation much more difficult.
 
