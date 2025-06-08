@@ -25,10 +25,10 @@ Code coverage reports can be used to verify that a change has been tested, and
 to find gaps in testing.
 
 Typical use cases for JaCoCo server include:
-* Gaps in coverage by integration tests, leading to failures in production.
+* Failures in production resulting from gaps in integration test coverage.
 * Duplication of coverage by unit tests and integration tests.
-* Unit tests tightly coupled to the implementation ibhibit changing the code
-  significantly.
+* Unit tests tightly coupled to the implementation ibhibit changing it, but
+  the repository is required to have high code coverage.
 
 ## Requirements <a name="requirements"></a>
 
