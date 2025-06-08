@@ -27,7 +27,7 @@ to find gaps in testing.
 
 Typical use cases for JaCoCo server include:
 * Failures in production resulting from gaps in integration test coverage.
-* Duplication of coverage by unit tests and integration tests.
+* Duplication of coverage by unit tests, and integration tests.
 * Unit tests tightly coupled to the implementation ibhibit changing it, but
   the repository is required to have high code coverage.
 
