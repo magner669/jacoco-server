@@ -15,12 +15,10 @@ It provides tools to measure and report code coverage, which helps developers ve
 ## Why JaCoCo Server? <a name="why-jacoco-server"></a>
 
 Integration tests are much better than unit tests for ensuring that the
-system works as a whole, but they normally _produce no code coverage_, and are also much more expensive to execute, write, and maintain.
+system works as a whole, but they normally _produce no code coverage_.
 
 JaCoCo Server allows collecting code coverage from Java processes while they are
-being tested by integration tests. The code coverage is collected from the entire
-system during integration tests, and can then be used to produce code coverage
-reports.
+being tested by integration tests. The code coverage data can be used to produce code coverage reports.
 
 Code coverage reports can be used to verify that a change has been tested, and
 to find gaps in testing.
