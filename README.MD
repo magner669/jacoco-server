@@ -1,8 +1,6 @@
 [![codecov](https://codecov.io/gh/magner669/jacoco-server/branch/main/graph/badge.svg)](https://codecov.io/gh/magner669/jacoco-server)
 # JaCocCo Server
 
-Increase code coverage by collecting it from integration tests.
-
 Table of contents:
 - [What is JaCoCo?](#what-is-jacoco)
 - [Why JaCoCo Server?](#why-jacoco-server)
@@ -16,31 +14,21 @@ It provides tools to measure and report code coverage, which helps developers ve
 
 ## Why JaCoCo Server? <a name="why-jacoco-server"></a>
 
-Consider a system composed of a set of Java microservices running in Kubernetes.
+Integration tests are much better than unit tests for ensuring that the
+system works as a whole, but they normally _produce no code coverage_, and are also much more expensive to execute, write, and maintain.
 
-The motivation for this project is to improve system reliability, reduce cost of ownership, and improve time to
-market. It aims to do this by making it worthwhile and cheaper to develop integration tests.
+JaCoCo Server allows collecting code coverage from Java processes while they are
+being tested by integration tests. The code coverage data can then be merged
+with unit test data to produce unified code coverage reports.
 
-Most organizations require a certain level of code coverage to be achieved by unit tests, which is usually measured by
-tools like JaCoCo. Critical systems often require near 100% code coverage.
+Code coverage reports can be used to verify that a change has been tested, and
+to find gaps in testing.
 
-Integration tests are much better for ensuring that the system works as a whole, but they are also much more expensive
-to write and maintain, and _they produce no code coverage_.
-
-JaCoCo Server allows collecting code coverage from integration tests, which can then be merged with the unit test
-code coverage. This way, a higher code coverage percentage can be archived without having to write a lot of unit tests.
-This is compatible with SDLC that uses GitHub/BitBucket, and [SonarQube](https://www.sonarsource.com/) to process the
-code coverage data, and provide code quality reports.
-
-Typical use cases for JaCoCo Server include:
-* Lots of unit tests and some integration tests, leading to higher effort due to duplication,and higher cost of
-  ownership.
-* Lots of unit tests tightly coupled to the implementation, that often need to be updated when the implementation
-  changes, resulting is high cost of ownership, and slower time to market.
-* Few or no unit tests, but some integration tests. Analyzing code coverage from the integration tests will help
-  finding the gaps.
-* Lots of unit tests and no integration tests, due to their relative high cost. Leading to concern before release that
-  the system might not work as expected. Will the process even start? Is each microservice compatible with the others?
+Typical use cases for JaCoCo server include:
+* Gaps in coverage by integration tests, leading to failures in production.
+* Duplication of coverage by unit tests and integration tests.
+* Unit tests tightly coupled to the implementation ibhibit changing the code
+  significantly.
 
 ## Requirements <a name="requirements"></a>
 
