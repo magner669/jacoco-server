@@ -10,7 +10,7 @@ Table of contents:
 ## What is JaCoCo? <a name="what-is-jacoco"></a>
 
 [JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/index.html) is a free Java code coverage library. It is the de-facto standard for code coverage in Java.
-It provides tools to measure and report code coverage, which helps developers verify that their tests are exercising the code as expected.
+It provides tools to measure and report code coverage, which help developers verify that their tests are exercising the code as expected.
 
 ## Why JaCoCo Server? <a name="why-jacoco-server"></a>
 
