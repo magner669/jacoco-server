@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/magner669/jacoco-server/branch/main/graph/badge.svg)](https://codecov.io/gh/magner669/jacoco-server)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 # JaCoCo Server
 
 Table of contents:
