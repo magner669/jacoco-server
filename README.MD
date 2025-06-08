@@ -33,7 +33,7 @@ Typical use cases for JaCoCo server include:
 ## Requirements <a name="requirements"></a>
 
 * Java 22 for JaCoCo server, test processes can use any Java version compatible with JaCoCo.
-* The [JaCoCo agent jar file] (https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent)
+* The [JaCoCo agent jar file](https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent)
   (any version would do), must be bundled with the processes under test, 
   and the command line of Java process changed to enable the JaCoCo agent.
 * JaCoCo server running, preferably in the same Kubernetes cluster as the processes under test. The server
