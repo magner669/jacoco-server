@@ -46,11 +46,9 @@ Typical use cases for JaCoCo server include:
 ### Configuring the JaCoCo agent
 
 Each process under test must be started with the [JaCoCo agent](https://www.eclemma.org/jacoco/trunk/doc/agent.html) 
-enabled and configured to emit code coverage data to the JaCoCo server.
-
-This is done by adding the following JVM argument to the command line when starting the process:
+enabled and configured to emit code coverage data to the JaCoCo server:
 ```
-java -javaagent:[yourpath/]jacocoagent.jar=output=tcpclient,address=[yourhostname],sessionid=[yoursessionid]
+java -javaagent:[yourpath/]jacocoagent.jar=output=tcpclient,address=[yourhostname],sessionid=[yoursessionid] ...
 ```
 
 Where:
