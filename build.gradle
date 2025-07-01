@@ -31,15 +31,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation(libs.jacocoCore)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation(platform(libs.junitBom))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation(libs.mockitoCore)
-    testImplementation(libs.mockitoJupiter)
-    mockitoAgent(libs.mockitoCore) {
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'ch.qos.logback:logback-classic'
+
+    mockitoAgent('org.mockito:mockito-core') {
         transitive = false
     }
-    implementation(libs.bundles.logging)
+    mockitoAgent platform(SpringBootPlugin.BOM_COORDINATES)
 }
 
 tasks {
