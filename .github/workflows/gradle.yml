@@ -11,6 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
+      packages: write
       contents: read
 
     steps:
@@ -30,7 +31,7 @@ jobs:
       run: ./gradlew build jacocoTestReport
 
     - name: Build Docker image
-      run: docker build . --file Dockerfile --tag jacoco-server:$(date +%s)
+      run: docker build . --file Dockerfile --tag ghcr.io/magner669/jacoco-server:$(date +%s) --push
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
