@@ -1,5 +1,5 @@
 [versions]
-mockito = "5.14.0"
+mockito = "5.18.0"
 findBugs = "3.0.2"
 jacoco = "0.8.13"
 junitJupiter = "5.10.0"
