@@ -7,7 +7,7 @@ import org.jacoco.core.data.*;
  * A session that holds execution data collected by multiple JaCoCo agents having the same session
  * ID. Multiple agents can report execution data concurrently, and this class is thread-safe.
  */
-class Session implements Consumer<ExecutionData> {
+public class Session implements Consumer<ExecutionData> {
   private final ExecutionDataStore executionDataStore = new ExecutionDataStore();
 
   /**
