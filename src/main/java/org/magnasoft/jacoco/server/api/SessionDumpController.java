@@ -30,14 +30,14 @@ class SessionDumpController {
         .map(
             session -> {
               try {
-                final byte[] body = new ExecFileContentsBuilder(session).build();
+                final var body = new ExecFileContentsBuilder(session).build();
                 final var contentDispositionHeader =
                     new ContentDispositionHeaderBuilder(sessionId).build();
                 return ResponseEntity.ok()
                     .header(CONTENT_DISPOSITION, contentDispositionHeader)
                     .contentType(APPLICATION_OCTET_STREAM)
                     .body(body);
-              } catch (IOException e) {
+              } catch (final IOException e) {
                 throw new UncheckedIOException(e);
               }
             })
