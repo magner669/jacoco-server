@@ -2,6 +2,7 @@ package org.magnasoft.jacoco.server.agentserver;
 
 import static java.util.Collections.synchronizedList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.magnasoft.jacoco.server.sessions.SessionTestData.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -60,9 +61,6 @@ class AgentClientServerTest {
 
   @Nested
   class SessionTest {
-    private static final String TEST_SESSION_ID = "test-session-id";
-    private static final String TEST_CLASS_NAME = "test.Class";
-    private static final long TEST_CLASS_ID = 1234;
     private final List<SessionInfo> actualSessionInfos = synchronizedList(new ArrayList<>());
     private final List<ExecutionData> actualExecutionDatas = synchronizedList(new ArrayList<>());
 
@@ -80,7 +78,7 @@ class AgentClientServerTest {
           .accept(any());
       tcpClientOutput.startup(agentOptions, runtimeData);
       // create some execution data, and flip one of the probes to true
-      runtimeData.getExecutionData(TEST_CLASS_ID, TEST_CLASS_NAME, 1).getProbes()[0] = true;
+      runtimeData.getExecutionData(TEST_CLASS_ID, TEST_CLASS, 1).getProbes()[0] = true;
     }
 
     @Test
@@ -92,7 +90,7 @@ class AgentClientServerTest {
       assertEquals(TEST_SESSION_ID, actualSession.getId());
       assertEquals(1, actualExecutionDatas.size());
       final var actualExecutionData = actualExecutionDatas.getFirst();
-      assertEquals(TEST_CLASS_NAME, actualExecutionData.getName());
+      assertEquals(TEST_CLASS, actualExecutionData.getName());
       assertEquals(TEST_CLASS_ID, actualExecutionData.getId());
       assertArrayEquals(new boolean[] {true}, actualExecutionData.getProbes());
     }

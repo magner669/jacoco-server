@@ -17,9 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class SessionTest {
-  public static final String TEST_SESSION_ID = "test-session-id";
-  public static final String TEST_CLASS = "test-class";
-  public static final long TEST_CLASS_ID = 1L;
   @Mock private SessionInfo sessionInfo;
   @Mock private ISessionInfoVisitor iSessionInfoVisitor;
   @Captor private ArgumentCaptor<SessionInfo> sessionInfoCaptor;
@@ -27,7 +24,7 @@ class SessionTest {
 
   @BeforeEach
   void setUp() {
-    when(sessionInfo.getId()).thenReturn(TEST_SESSION_ID);
+    when(sessionInfo.getId()).thenReturn(SessionTestData.TEST_SESSION_ID);
     session = Session.of(sessionInfo);
   }
 
@@ -38,7 +35,7 @@ class SessionTest {
   void acceptSessionInfoVisitor() {
     session.accept(iSessionInfoVisitor);
     verify(iSessionInfoVisitor).visitSessionInfo(sessionInfoCaptor.capture());
-    assertEquals(TEST_SESSION_ID, sessionInfoCaptor.getValue().getId());
+    assertEquals(SessionTestData.TEST_SESSION_ID, sessionInfoCaptor.getValue().getId());
   }
 
   @Nested
@@ -49,8 +46,8 @@ class SessionTest {
 
     @BeforeEach
     void setUp() {
-      when(executionData.getName()).thenReturn(TEST_CLASS);
-      when(executionData.getId()).thenReturn(TEST_CLASS_ID);
+      when(executionData.getName()).thenReturn(SessionTestData.TEST_CLASS);
+      when(executionData.getId()).thenReturn(SessionTestData.TEST_CLASS_ID);
     }
 
     @Test
@@ -62,7 +59,7 @@ class SessionTest {
 
     @Test
     void merge() {
-      when(otherExecutionData.getId()).thenReturn(TEST_CLASS_ID);
+      when(otherExecutionData.getId()).thenReturn(SessionTestData.TEST_CLASS_ID);
       session.accept(executionData);
       session.accept(otherExecutionData);
       verify(executionData).merge(otherExecutionData);

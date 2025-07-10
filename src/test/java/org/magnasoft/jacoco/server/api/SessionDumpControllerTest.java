@@ -2,6 +2,7 @@ package org.magnasoft.jacoco.server.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.magnasoft.jacoco.server.sessions.SessionTestData.TEST_SESSION_ID;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
@@ -18,8 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class SessionDumpControllerTest {
-
-  private static final String TEST_SESSION_ID = "test-session-id";
 
   @Mock private SessionRepository sessionRepository;
   @Mock private Session session;

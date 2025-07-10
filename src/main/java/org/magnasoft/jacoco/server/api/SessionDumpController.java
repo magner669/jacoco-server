@@ -24,7 +24,7 @@ class SessionDumpController {
   }
 
   @GetMapping(name = "/session/{sessionId}")
-  ResponseEntity<?> getBinary(final @PathVariable String sessionId) {
+  ResponseEntity<byte[]> getBinary(final @PathVariable String sessionId) {
     return Optional.ofNullable(sessionId)
         .flatMap(sessionRepository::get)
         .map(
