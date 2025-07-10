@@ -3,6 +3,8 @@ package org.magnasoft.jacoco.server.api;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import org.magnasoft.jacoco.server.sessions.ExecFileContentsBuilder;
@@ -27,12 +29,17 @@ class SessionDumpController {
         .flatMap(sessionRepository::get)
         .map(
             session -> {
-              final var body = new ExecFileContentsBuilder(session).build();
-              return ResponseEntity.ok()
-                  .header(
-                      CONTENT_DISPOSITION, new ContentDispositionHeaderBuilder(sessionId).build())
-                  .contentType(APPLICATION_OCTET_STREAM)
-                  .body(body);
+              final byte[] body;
+              try {
+                body = new ExecFileContentsBuilder(session).build();
+                return ResponseEntity.ok()
+                    .header(
+                        CONTENT_DISPOSITION, new ContentDispositionHeaderBuilder(sessionId).build())
+                    .contentType(APPLICATION_OCTET_STREAM)
+                    .body(body);
+              } catch (IOException e) {
+                throw new UncheckedIOException(e);
+              }
             })
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
