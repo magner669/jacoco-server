@@ -1,5 +1,6 @@
 package org.magnasoft.jacoco.server.api;
 
+import static org.springframework.http.CacheControl.noCache;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 
@@ -35,12 +36,14 @@ class SessionDumpController {
                     new ContentDispositionHeaderBuilder(sessionId).build();
                 return ResponseEntity.ok()
                     .header(CONTENT_DISPOSITION, contentDispositionHeader)
+                    .contentLength(body.length)
                     .contentType(APPLICATION_OCTET_STREAM)
+                    .cacheControl(noCache())
                     .body(body);
               } catch (final IOException e) {
                 throw new UncheckedIOException(e);
               }
             })
-        .orElseGet(() -> ResponseEntity.notFound().build());
+        .orElseGet(() -> ResponseEntity.notFound().cacheControl(noCache()).build());
   }
 }
