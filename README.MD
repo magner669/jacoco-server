@@ -85,3 +85,10 @@ spec:
         - "-jar"
         - "/app/myapp.jar"
 ```
+
+### Obtaining the execution data
+
+The endpoint to obtain execution data is `/session/{id}` where the id is the afformentioned `sessionid` configured in each JaCoCo agent.
+It will produce a file in JaCocO exec format.
+
+See also: [How to extract readable format report from jacoco.exec?](https://stackoverflow.com/questions/41034840/how-to-extract-readable-format-report-from-jacoco-exec)
