@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import org.jacoco.core.data.ExecutionDataWriter;
 
-class EmptyExecFile {
+public class EmptyExecFile {
 
-  static final byte[] EMPTY_EXEC_FILE;
+  public static final byte[] EMPTY_EXEC_FILE;
 
   static {
     try (final var outputStream = new ByteArrayOutputStream()) {
