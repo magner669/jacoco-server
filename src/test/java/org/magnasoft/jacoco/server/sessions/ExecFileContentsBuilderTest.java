@@ -1,6 +1,7 @@
 package org.magnasoft.jacoco.server.sessions;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.magnasoft.jacoco.server.sessions.EmptyExecFile.EMPTY_EXEC_FILE;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,6 @@ class ExecFileContentsBuilderTest {
   void buildEmptySession() {
     final var actual = new ExecFileContentsBuilder(session).build();
     assertArrayEquals(
-        EmptyExecFile.INSTANCE, actual, "Expected empty byte array for uninitialized session");
+        EMPTY_EXEC_FILE, actual, "Expected empty byte array for uninitialized session");
   }
 }
