@@ -1,7 +1,7 @@
 [versions]
 findBugs = "3.0.2"
 jacoco = "0.8.13"
-spotless = "7.1.0"
+spotless = "7.2.0"
 spring-boot = "3.5.3"
 
 [libraries]
