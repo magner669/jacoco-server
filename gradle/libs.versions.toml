@@ -1,6 +1,6 @@
 [versions]
 findBugs = "3.0.2"
-jacoco = "0.8.13"
+jacoco = "0.8.14"
 spotless = "8.0.0"
 spring-boot = "3.5.6"
 
