@@ -2,7 +2,7 @@
 findBugs = "3.0.2"
 jacoco = "0.8.14"
 spotless = "8.0.0"
-spring-boot = "3.5.7"
+spring-boot = "4.0.0"
 
 [libraries]
 findBugs =  { module = "com.google.code.findbugs:jsr305", version.ref = "findBugs" }
